@@ -10,11 +10,19 @@
     .market_data_crypto_field { text-align: center; padding: 10px;}
     table { border-collapse: collapse; width: 100%; }
     .delete_button{ background-color: red; color: white; border : none; padding: 5px; }
+    .edit_button{ background-color: orange; color: white; border : none; padding: 5px; }
+    .add_button{ background-color: green; color: white; border : none; padding: 5px; }
+    .header{ display: flex; justify-content: space-between; align-items: center; }
 </style>
 
 {% include 'layout/header.html.twig' %}
 <div>
-    <h1>Welcome to the Market page</h1>
+    <div class='header'>
+        <h1>Welcome to the Market page</h1>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_market_add') }}" class="add_button">Add a new Crypto</a>
+        {% endif %}
+    </div>
     <table>
         <thead>
             <tr class="market_data_crypto">
@@ -23,6 +31,9 @@
                 <th class="market_data_crypto_field" >Price</th>
                 <th class="market_data_crypto_field" >Market Cap</th>
                 <th class="market_data_crypto_field" >Max Supply</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th class="market_data_crypto_field" >Edit data</th>
+                {% endif %}
                 {% if is_granted('ROLE_ADMIN') %}
                     <th class="market_data_crypto_field" >Delete from market data</th>
                 {% endif %}
@@ -36,6 +47,11 @@
                     <td class="market_data_crypto_field">{{ crypto.price }}</td>
                     <td class="market_data_crypto_field">{{ crypto.marketCap }}</td>
                     <td class="market_data_crypto_field">{{ crypto.maxSupply }}</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td class="market_data_crypto_field" >
+                            <a href="{{ path('app_market_edit', {'slug': crypto.slug}) }}" class="edit_button">Edit</a>
+                        </td>
+                    {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <td class="market_data_crypto_field" >
                             <form action="{{ path('app_market_delete', {'id': crypto.id}) }}" method="post">
