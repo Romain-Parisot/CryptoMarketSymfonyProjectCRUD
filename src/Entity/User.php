@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -37,6 +39,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $lastName = null;
+
+    #[ORM\ManyToMany(targetEntity: Market::class, mappedBy: 'favorites')]
+    private Collection $markets;
+
+    public function __construct()
+    {
+        $this->markets = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -132,6 +142,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(?string $lastName): static
     {
         $this->lastName = htmlspecialchars($lastName);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Market>
+     */
+    public function getMarkets(): Collection
+    {
+        return $this->markets;
+    }
+
+    public function addMarket(Market $market): static
+    {
+        if (!$this->markets->contains($market)) {
+            $this->markets->add($market);
+            $market->addFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMarket(Market $market): static
+    {
+        if ($this->markets->removeElement($market)) {
+            $market->removeFavorite($this);
+        }
 
         return $this;
     }

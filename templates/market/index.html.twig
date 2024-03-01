@@ -12,6 +12,8 @@
     .delete_button{ background-color: red; color: white; border : none; padding: 5px; }
     .edit_button{ background-color: orange; color: white; border : none; padding: 5px; }
     .add_button{ background-color: green; color: white; border : none; padding: 5px; }
+    .favorite_button{ background-color: yellow; color: black; border : none; padding: 5px; }
+    .not_favorite_button{ background-color: #D3D3D3; color: black; border : none; padding: 5px; }
     .header{ display: flex; justify-content: space-between; align-items: center; }
 </style>
 
@@ -26,6 +28,9 @@
     <table>
         <thead>
             <tr class="market_data_crypto">
+                {% if is_granted('ROLE_USER') %}
+                    <th class="market_data_crypto_field" >Favorites</th>
+                {% endif %}
                 <th class="market_data_crypto_field" >Code</th>
                 <th class="market_data_crypto_field" >Name</th>
                 <th class="market_data_crypto_field" >Price</th>
@@ -42,6 +47,18 @@
         <tbody>
             {% for crypto in marketData %}
                 <tr class="market_data_crypto">
+                    {% if is_granted('ROLE_USER') %}
+                        <th class="market_data_crypto_field" >
+                        <form action="{{ path('app_market_favorite', {'id': crypto.id}) }}" method="post">
+                                <input type="hidden" name="csrf" value="{{ csrf_token('favorite' ~ crypto.id) }}">
+                                {% if favorites.contains(crypto) %}
+                                    <input type="submit" value="Remove from favorite" class="favorite_button">
+                                {% else %}
+                                    <input type="submit" value="Add to favorite" class="not_favorite_button">
+                                {% endif %}
+                            </form>
+                        </th>
+                    {% endif %}
                     <td class="market_data_crypto_field">{{ crypto.code }}</td>
                     <td class="market_data_crypto_field">{{ crypto.name }}</td>
                     <td class="market_data_crypto_field">{{ crypto.price }}</td>
