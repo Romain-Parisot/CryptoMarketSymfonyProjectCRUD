@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+    nav {
+      display: flex; align-items: center; justify-content: center;
+    }
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    header {
+      background-color: #f2f2f2;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+</style>
+
+<header>
+  <nav>
+    <ul>
+      <li><a href="{{ path('app_market') }}">Market</a></li>
+      <li><a href="{{ path('app_user_profile') }}">User Profile</a></li>
+      <li><a href="{{ path('app_login') }}">Login</a></li>
+      <li><a href="{{ path('app_register') }}">Register</a></li>
+    </ul>
+  </nav>
+</header>
+{% endblock %}

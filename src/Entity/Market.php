@@ -43,7 +43,7 @@ class Market
 
     public function setName(string $name): static
     {
-        $this->name = $name;
+        $this->name = htmlspecialchars($name);
 
         return $this;
     }
@@ -55,7 +55,7 @@ class Market
 
     public function setCode(string $code): static
     {
-        $this->code = $code;
+        $this->code = htmlspecialchars($code);
 
         return $this;
     }
@@ -67,7 +67,7 @@ class Market
 
     public function setPrice(float $price): static
     {
-        $this->price = $price;
+        $this->price = htmlspecialchars($price);
 
         return $this;
     }
@@ -79,7 +79,7 @@ class Market
 
     public function setMarketCap(float $marketCap): static
     {
-        $this->marketCap = $marketCap;
+        $this->marketCap = htmlspecialchars($marketCap);
 
         return $this;
     }
@@ -91,7 +91,7 @@ class Market
 
     public function setMaxSupply(?float $maxSupply): static
     {
-        $this->maxSupply = $maxSupply;
+        $this->maxSupply = htmlspecialchars($maxSupply);
 
         return $this;
     }

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+<style>
+
+</style>
+{% include 'layout/header.html.twig' %}
+
+<div >
+    <h1>Profil</h1>
+    <p>Votre adresse email est {{ user.email }}.</p>
+
+    {{ form(form) }}
+</div>
+{% endblock %}
