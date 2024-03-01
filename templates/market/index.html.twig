@@ -1,20 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MarketController!{% endblock %}
+{% block title %}Market{% endblock %}
 
 {% block body %}
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .market_data_container { display: flex; flex-direction: column; align-items: center; }
+    .market_data_crypto { border: 1px solid black; }
+    .market_data_crypto_field { text-align: center; padding: 10px;}
+    table { border-collapse: collapse; width: 100%; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/roroc/OneDrive - De Vinci/Bureau/TRAVAIL/A3/SymfonyTD_01_03_2024/src/Controller/MarketController.php</code></li>
-        <li>Your template at <code>C:/Users/roroc/OneDrive - De Vinci/Bureau/TRAVAIL/A3/SymfonyTD_01_03_2024/templates/market/index.html.twig</code></li>
-    </ul>
+<div>
+    <h1>Welcome to the Market page</h1>
+    <table>
+        <thead>
+            <tr class="market_data_crypto">
+                <th class="market_data_crypto_field" >Code</th>
+                <th class="market_data_crypto_field" >Name</th>
+                <th class="market_data_crypto_field" >Price</th>
+                <th class="market_data_crypto_field" >Market Cap</th>
+                <th class="market_data_crypto_field" >Max Supply</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for crypto in marketData %}
+                <tr class="market_data_crypto">
+                    <td class="market_data_crypto_field">{{ crypto.code }}</td>
+                    <td class="market_data_crypto_field">{{ crypto.name }}</td>
+                    <td class="market_data_crypto_field">{{ crypto.price }}</td>
+                    <td class="market_data_crypto_field">{{ crypto.marketCap }}</td>
+                    <td class="market_data_crypto_field">{{ crypto.maxSupply }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

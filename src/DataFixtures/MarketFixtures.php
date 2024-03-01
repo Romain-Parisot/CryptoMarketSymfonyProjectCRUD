@@ -36,7 +36,7 @@ class MarketFixtures extends Fixture
         $crypto->setPrice($data->quote->USD->price);
         $crypto->setMarketCap($data->quote->USD->market_cap);
         $crypto->setMaxSupply($data->max_supply);
-        $crypto->setSlug($data->slug);
+        $crypto->setSlug($data->slug . '-' . uniqid());
         $manager->persist($crypto);
     }
         $manager->flush();
