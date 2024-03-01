@@ -9,6 +9,7 @@
     .market_data_crypto { border: 1px solid black; }
     .market_data_crypto_field { text-align: center; padding: 10px;}
     table { border-collapse: collapse; width: 100%; }
+    .delete_button{ background-color: red; color: white; border : none; padding: 5px; }
 </style>
 
 {% include 'layout/header.html.twig' %}
@@ -22,6 +23,9 @@
                 <th class="market_data_crypto_field" >Price</th>
                 <th class="market_data_crypto_field" >Market Cap</th>
                 <th class="market_data_crypto_field" >Max Supply</th>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <th class="market_data_crypto_field" >Delete from market data</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -32,6 +36,14 @@
                     <td class="market_data_crypto_field">{{ crypto.price }}</td>
                     <td class="market_data_crypto_field">{{ crypto.marketCap }}</td>
                     <td class="market_data_crypto_field">{{ crypto.maxSupply }}</td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td class="market_data_crypto_field" >
+                            <form action="{{ path('app_market_delete', {'id': crypto.id}) }}" method="post">
+                                <input type="hidden" name="csrf" value="{{ csrf_token('delete' ~ crypto.id) }}">
+                                <input type="submit" value="Delete" class="delete_button">
+                            </form>
+                        </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>

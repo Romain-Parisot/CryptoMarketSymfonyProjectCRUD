@@ -18,9 +18,18 @@ class MarketController extends AbstractController
 
         $marketData = $entityManager->getRepository(Market::class)->findAll();
 
-
         return $this->render('market/index.html.twig', [
             'marketData' => $marketData,
         ]);
+    }
+    #[Route('/market/delete/{id}', name: 'app_market_delete')]
+    public function delete(EntityManagerInterface $entityManager, Request $r, Market $market)
+    {
+        if ($this->isCsrfTokenValid('delete' . $market->getId(), $r->request->get('csrf'))) {
+            $entityManager->remove($market);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_market');
     }
 }
